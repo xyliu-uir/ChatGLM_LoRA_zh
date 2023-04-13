@@ -84,3 +84,17 @@ python finetune.py --dataset_path data/alpaca-zh --lora_rank 8 --per_device_trai
 
 ![image](https://user-images.githubusercontent.com/50279789/230532652-73474857-27db-436e-a5b6-e0a3aef3d70b.png)
 
+
+## 七、低成本部署
+```python
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).quantize(4).half().cuda()
+```
+或者
+```python
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).quantize(8).half().cuda()
+```
+| **量化等级**   | **最低 GPU 显存**（推理） | **最低 GPU 显存**（高效参数微调） |
+| -------------- | ------------------------- | --------------------------------- |
+| FP16（无量化） | 13 GB                     | 14 GB                             |
+| INT8           | 8 GB                     | 9 GB                             |
+| INT4           | 6 GB                      | 7 GB                              |
